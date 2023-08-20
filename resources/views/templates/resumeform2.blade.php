@@ -2,7 +2,7 @@
 
 @section('container')
 <a class="btn btn-primary mb-2" href="/dashboard/template" role="button"><i class="bi bi-arrow-left-circle"></i> Back</a>
-<h3>Masukkan data anda resume1</h3>
+<h3>Masukkan data anda resume2</h3>
 <form method="POST" action="/dashboard/template" class="border border-2 rounded-2 p-2" enctype="multipart/form-data">
   @csrf
   <p><i class="bi bi-person-circle"></i> Personal Details</p>
@@ -109,7 +109,7 @@
         
       </div>
       <div class="d-flex flex-wrap flex-md-nowrap gap-2">
-        <input type="text" class="form-control @error('namaPerusahaan') is-invalid @enderror" id="perusahaan" placeholder="nama perusahaan">
+        <input type="text" class="form-control @error('namaPerusahaan') is-invalid @enderror" id="perusahaan" placeholder="nama perusahaan - Bandung, Indonesia">
         <input type="text" class="form-control @error('posisi') is-invalid @enderror" id="posisi" placeholder="posisi pekerjaan">
         <input type="text" class="form-control @error('durasiBekerja') is-invalid @enderror" id="durasiBekerja" placeholder="bulan & tahun - bulan & tahun">
       </div>

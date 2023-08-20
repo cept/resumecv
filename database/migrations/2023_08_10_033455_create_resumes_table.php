@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('skills');
             $table->text('certification');
             $table->string('url');
+            $table->string('template_type');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });

@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('container')
+<a class="btn btn-primary mb-2" href="/dashboard" role="button"><i class="bi bi-arrow-left-circle"></i> Back</a>
 <h3>Perbarui resume anda</h3>
 <form method="POST" action="/dashboard/template/{{$resume->id}}" class="border border-2 rounded-2 p-2" enctype="multipart/form-data">
   @csrf
@@ -82,7 +83,14 @@
     <div class="col-md-6 mb-3">
       <label for="skills" class="col-sm-2 col-form-label"><i class="bi bi-tools"></i> SKILLS</label>
       <div id="skills">
-        
+        {{-- @dd($skills) --}}
+        @if ($skills)
+        @foreach ($skills as $skill)
+    
+        <span class="badge text-bg-success p-1 m-1">{{ $skill }} <input type='hidden' name='skill[]' value='{{$skill}}'/><span class="text-black removeskill" onclick="removeList(this)">X</span></span>
+            
+        @endforeach
+        @endif
       </div>
       <div class="input-group mb-3">
         <input type="text" class="form-control @error('skill') is-invalid @enderror" id="userskill" placeholder="masukkan skill" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -93,7 +101,17 @@
     <div class="mb-3">
       <label for="education" class="col-sm-2 col-form-label"><i class="bi bi-book-half"></i> EDUCATION</label>
       <div id="educations">
-        
+        @foreach ($educations as $edu)
+        <div class="d-inline-block border rounded p-2 m-2">
+          <input type='hidden' name='institusi[]' value='{{$edu->institusi}}'/>
+          <input type='hidden' name='gelar[]' value='{{$edu->gelar}}'/>
+          <input type='hidden' name='tahun[]' value='{{$edu->tahun}}'/>
+          <h4>{{$edu->institusi}}</h4>
+          <p>{{$edu->gelar}} ({{$edu->tahun}})</p>
+          <button class="btn btn-sm btn-danger" type="button" onclick="removeList(this)">Remove</button>
+        </div>
+            
+        @endforeach
       </div>
       <div class="d-flex flex-wrap flex-md-nowrap gap-2">
         <input type="text" class="form-control @error('institusi') is-invalid @enderror" id="institusi" placeholder="nama institusi/kampus">
@@ -106,7 +124,19 @@
     <div class="mb-3">
       <label for="experience" class="col-sm-2 col-form-label"><i class="bi bi-briefcase-fill"></i> EXPERIENCE</label>
       <div id="experiences">
-        
+        @foreach ($experiences as $experience)
+        <div class="d-inline-block border rounded p-2 m-2">
+          <input type='hidden' name='namaPerusahaan[]' value='{{$experience->namaPerusahaan}}'/>
+          <input type='hidden' name='posisi[]' value='{{$experience->posisi}}'/>
+          <input type='hidden' name='durasiBekerja[]' value='{{$experience->durasiBekerja}}'/>
+          <textarea class="d-none" name='workDesc[]'>{{$experience->workDesc}}</textarea>
+          <h4>{{$experience->namaPerusahaan}}</h4>
+          <p>{{$experience->posisi}} ({{$experience->durasiBekerja}})</p>
+          <p>{{$experience->workDesc}}</p>
+          <button class="btn btn-sm btn-danger" type="button" onclick="removeList(this)">Remove</button>
+        </div>
+            
+        @endforeach
       </div>
       <div class="d-flex flex-wrap flex-md-nowrap gap-2">
         <input type="text" class="form-control @error('namaPerusahaan') is-invalid @enderror" id="perusahaan" placeholder="nama perusahaan">
@@ -116,6 +146,6 @@
       <textarea id="work_desc" class="form-control my-2 w-100" placeholder="tuliskan deskripsi pekerjaan anda"></textarea>
       <button class="btn btn-primary" type="button" id="addExperience">Add</button>
     </div>
-    <button type="submit" class="btn btn-primary"><i class="bi bi-box2"></i> Create Resume</button>
+    <button type="submit" class="btn btn-primary"><i class="bi bi-box2"></i> Update Resume</button>
 </form>
 @endsection

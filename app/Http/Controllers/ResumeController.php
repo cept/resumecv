@@ -14,14 +14,19 @@ class ResumeController extends Controller
         return view('dashboard.template');
     }
 
-    public function create()
+    public function create($template)
     {
-        return view('templates.resumeform1');
+        // dd($template);
+        session(['selected_template' => $template]);
+        $nameTemplate = "templates.". $template;
+        // return view('templates.resumeform1');
+        return view($nameTemplate);
     }
 
     public function store(Request $request)
     {
         // dd($request);
+        $template = session('selected_template');
         $validated = $request->validate([
             'nama_lengkap' => 'required|max:255',
             'headline' => 'required|max:255',
@@ -60,25 +65,11 @@ class ResumeController extends Controller
         $validated['experience'] = json_encode($experience);
         $validated['certification'] = '';
         $validated['url'] = 'cv'.time();
+        $validated['template_type'] = $template;
 
         Resume::create($validated);
 
-
-        // $akun = new User;
-        // $resume = new Resume;
-        // $resume->user_id = '2';
-        // $resume->nama_lengkap = $request->nama;
-        // $resume->email = $request->email;
-        // $resume->noHP = $request->nohp;
-        // $resume->headline = $request->headline;
-        // $resume->alamat = $request->alamat;
-        // $resume->summary = $request->summary;
-        // $resume->experience = [$request->namaPerusahaan, $request->posisi, $request->durasiBekerja, $request->workDesc];
-        // $resume->education = [$request->institusi, $request->gelar, $request->tahun];
-        // $resume->skills = $request->skill;
-        // $resume->certification = '';
-        // $resume->save();
-        // Resume::create('2','','','','','','','','','','');
+        session()->forget('selected_template');
 
         return redirect('/dashboard')->with('success', 'Resume berhasil dibuat');
     }
@@ -87,8 +78,8 @@ class ResumeController extends Controller
     {
         $resume = Resume::where('url', $url)->firstOrFail();
         // dd($resume);
-        
-        return view('templates.resume1', [
+        $templateView = 'templates.result_'.$resume->template_type;
+        return view($templateView, [
             'resume' => $resume,
         ]);
     }
@@ -96,9 +87,13 @@ class ResumeController extends Controller
     public function edit($id)
     {
         $resume = Resume::findOrFail($id);
-        // dd($resume);
-        return view('templates.resumeform1_update', [
+        $viewName = 'templates.'.$resume->template_type.'_update';
+        // dd($template);
+        return view($viewName, [
             'resume' => $resume,
+            'skills' => json_decode($resume->skills),
+            'educations' => json_decode($resume->education),
+            'experiences' => json_decode($resume->experience),
         ]);
     }
 
@@ -111,13 +106,13 @@ class ResumeController extends Controller
             'email' => 'required',
             'noHP' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'alamat' => 'required|max:255',
-            'skill' => 'required',
-            'institusi' => 'required',
-            'gelar' => 'required',
-            'tahun' => 'required',
-            'namaPerusahaan' => 'required',
-            'posisi' => 'required',
-            'durasiBekerja' => 'required',
+            // 'skill' => 'required',
+            // 'institusi' => 'required',
+            // 'gelar' => 'required',
+            // 'tahun' => 'required',
+            // 'namaPerusahaan' => 'required',
+            // 'posisi' => 'required',
+            // 'durasiBekerja' => 'required',
             // 'workDesc',
         ]);
 
@@ -128,18 +123,24 @@ class ResumeController extends Controller
         $education = array();
         $experience = array();
 
-        foreach($request->institusi as $key=>$value){
-            $education[$key]['institusi']=$value;
-            $education[$key]['gelar']=$request->gelar[$key];
-            $education[$key]['tahun']=$request->tahun[$key];
+        if ($request->institusi) {
+            foreach($request->institusi as $key=>$value){
+                $education[$key]['institusi']=$value;
+                $education[$key]['gelar']=$request->gelar[$key];
+                $education[$key]['tahun']=$request->tahun[$key];
+            }
         }
 
-        foreach($request->namaPerusahaan as $key=>$value){
-            $experience[$key]['namaPerusahaan']=$value;
-            $experience[$key]['posisi']=$request->posisi[$key];
-            $experience[$key]['durasiBekerja']=$request->durasiBekerja[$key];
-            $experience[$key]['workDesc']=$request->workDesc[$key];
+        if ($request->namaPerusahaan) {
+            # code...
+            foreach($request->namaPerusahaan as $key=>$value){
+                $experience[$key]['namaPerusahaan']=$value;
+                $experience[$key]['posisi']=$request->posisi[$key];
+                $experience[$key]['durasiBekerja']=$request->durasiBekerja[$key];
+                $experience[$key]['workDesc']=$request->workDesc[$key];
+            }
         }
+
 
         $validated['education'] = json_encode($education);
         $validated['experience'] = json_encode($experience);

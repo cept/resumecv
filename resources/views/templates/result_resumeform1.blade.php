@@ -2,7 +2,7 @@
 <html>
 <head>
 
-	<title>{{ $resume->nama_lengkap }} | {{ $resume->headline }} | {{ $resume->email }}</title>
+	<title>{{ $resume->nama_lengkap }}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 	<meta name="keywords" content="" />
@@ -57,16 +57,17 @@
 						<div class="yui-u">
 							{{-- {{ $resume['skills'] = str_replace('\\',"",$resume['skills']) }} --}}
 							<?php 
-								$skills = json_decode($resume->skills)
+								$skills = json_decode($resume->skills);
 
 							?>
-				
+							@if ($skills)
 							@foreach ($skills as $skill)
 							<ul class="talent">
 								<li>{{$skill}}</li>
 							</ul>
 								
 							@endforeach
+							@endif
 						</div>
 					</div><!--// .yui-gf-->
 
@@ -107,7 +108,7 @@
 						<div class="yui-u" style="padding: 5px 0 10px 0; border-bottom: 1px solid #ccc">
 							
 							<h2>{{$education->institusi}}</h2>
-							<h3>{{$education->gelar}} &mdash; ({{$education->tahun}})  </h3>
+							<h3>{{$education->gelar}} {{$education->tahun}}  </h3>
 								
 						</div>
 						@endforeach

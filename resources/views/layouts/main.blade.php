@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
+      
       .removeskill {
         cursor: pointer;
       }
@@ -38,6 +39,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="\dashboard"><i class="bi bi-layout-text-sidebar-reverse"></i> My Dashboard</a></li>
+                <li><a class="dropdown-item" href="\profile"><i class="bi bi-person-gear"></i> My Profile</a></li>
                 <li>
                   <form action="/logout" method="POST">
                     @csrf
@@ -57,8 +59,16 @@
     </nav>
 
     {{-- body --}}
+    <div class="container-fluid">
+      <div class="row">
+        @yield('sidebar')
+    
+      </div>
+    </div>
+
     <div class="container mt-4">
         @yield('container')
+        
 
     </div>
 

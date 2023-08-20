@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResumeController;
+use App\Http\Controllers\ProfileController;
 use App\Models\Resume;
 
 /*
@@ -32,7 +33,11 @@ Route::get('/register', [RegisterController::class, 'index'])->middleware('guest
 Route::post('/register', [RegisterController::class, 'store']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboardadmin', [DashboardController::class, 'admin'])->middleware('auth');
 
 Route::resource('/dashboard/template', ResumeController::class)->middleware('auth');
+Route::get('/dashboard/template/{template}/create', [ResumeController::class, 'create'])->middleware('auth')->name('template.create');
+// Route::resource('/dashboard/template2', ResumeController::class)->middleware('auth');
+Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 
 Route::get('/template/{url}', [ResumeController::class, 'show']);
