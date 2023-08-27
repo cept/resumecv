@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Resume;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use PDF;
+use Illuminate\Support\Facades\Storage;
+use App\Jobs\GeneratePdf;
 
 class ResumeController extends Controller
 {
@@ -42,7 +45,15 @@ class ResumeController extends Controller
             'posisi' => 'required',
             'durasiBekerja' => 'required',
             // 'workDesc',
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
+
+        $validated['foto'] = '';
+        if ($request->hasFile('foto')) {
+            $imagePath = $request->file('foto')->store('foto_resumes', 'public');
+            $validated['foto'] = $imagePath;
+        }
+
         $validated['user_id'] = auth()->user()->id;
         $validated['skills'] = json_encode($request->skill);
         $education = array();
@@ -79,8 +90,11 @@ class ResumeController extends Controller
         $resume = Resume::where('url', $url)->firstOrFail();
         // dd($resume);
         $templateView = 'templates.result_'.$resume->template_type;
+        $imageUrl = Storage::url($resume->foto);
+
         return view($templateView, [
             'resume' => $resume,
+            'imageUrl' => $imageUrl,
         ]);
     }
 
@@ -106,6 +120,7 @@ class ResumeController extends Controller
             'email' => 'required',
             'noHP' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'alamat' => 'required|max:255',
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
             // 'skill' => 'required',
             // 'institusi' => 'required',
             // 'gelar' => 'required',
@@ -147,15 +162,55 @@ class ResumeController extends Controller
         $validated['certification'] = '';
         $validated['url'] = $resume->url;
 
+        if ($request->hasFile('foto')) {
+            // Menghapus foto lama jika ada
+            if ($resume->foto) {
+                Storage::delete('public/' . $resume->foto);
+            }
+
+            $imagePath = $request->file('foto')->store('foto_resumes', 'public');
+            $validated['foto'] = $imagePath;
+        }
+
         // Resume::edit($validated);
         Resume::where('id', $resume->id)->update($validated);
 
         return redirect('/dashboard')->with('success', 'Resume berhasil diperbarui');
     }
 
+    public function downloadResume($id)
+    {
+        $resume = Resume::findOrFail($id);
+    
+        $templateView = 'templates.result_' . $resume->template_type;
+    
+        // Generate HTML view for resume
+        $imageUrl = public_path('storage/' . $resume->foto);
+        $html = view($templateView, compact('resume', 'imageUrl'));
+    
+        // Generate PDF
+        $pdf = PDF::loadHTML($html);
+    
+        // Get PDF content
+        $pdfContent = $pdf->output();
+    
+        // Set the response content type to PDF
+        $headers = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $resume->url . '.pdf"',
+        ];
+    
+        // Send the PDF as response
+        return response($pdfContent, 200, $headers);
+    }
+    
+
     public function destroy($id)
     {
         $resume = Resume::FindOrFail($id);
+        if ($resume->foto) {
+            Storage::delete('public/' . $resume->foto);
+        }
         $resume->delete();
         // $resume->user->delete();
 

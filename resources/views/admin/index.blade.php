@@ -24,7 +24,7 @@
             width: 100%;
             position: fixed;
             top: 0;
-            z-index: 1;
+            z-index: 2;
         }
         .dropdown {
             position: relative;
@@ -36,7 +36,6 @@
             background-color: #f9f9f9;
             min-width: 160px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            z-index: 1;
         }
         .dropdown:hover .dropdown-content {
             display: block;
@@ -51,11 +50,16 @@
             left: 0;
             padding-top: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
         .menu-item {
             padding: 10px;
             text-align: center;
             border-bottom: 1px solid #ddd;
+        }
+
+        .menu-item:hover {
+            background-color: #cbe8ff;
         }
 
         .menu-item a {
@@ -77,6 +81,7 @@
             margin-left: 250px;
             margin-top: 60px;
             padding: 20px;
+            position: relative;
         }
     </style>
 </head>
@@ -95,7 +100,7 @@
                 Welcome, {{ auth()->user()->fullname }}
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="\dashboard"><i class="bi bi-layout-text-sidebar-reverse"></i> My Dashboard</a></li>
+                <li><a class="dropdown-item" href="\dashboardadmin"><i class="bi bi-layout-text-sidebar-reverse"></i> My Dashboard</a></li>
                 <li><a class="dropdown-item" href="\profile"><i class="bi bi-person-gear"></i> My Profile</a></li>
                 <li>
                   <form action="/logout" method="POST">
@@ -119,75 +124,23 @@
         <div class="row">
             <div class="col-md-2 sidebar">
                 <div class="menu-item">
-                    <a href="#" onclick="showDashboard()">Dashboard</a>
+                    <a href="/dashboardadmin" class="{{ Request::is('dashboardadmin')?'active':'' }}">Dashboard</a>
                 </div>
                 <div class="menu-item">
-                    <a href="#" onclick="showUserManagement()">Management User</a>
+                    <a href="/managementuser" class="{{ Request::is('managementuser')?'active':'' }}">Management User</a>
+                </div>
+                <div class="menu-item">
+                    <a href="/dashboard">Buat Resume CV</a>
                 </div>
             </div>
             <div class="col-md-10 content" id="content">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Users</h5>
-                                <p class="card-text"><strong>5</strong> user yang sudah terdaftar.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h5 class="card-title">Total Resumes</h5>
-                                <p class="card-text"><strong>18</strong> resume yang sudah dibuat.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Resume Creation Statistics
-                    </div>
-                    <div class="card-body">
-                        <canvas id="resumeChart"></canvas>
-                    </div>
-                </div>
+                @yield('content')
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        function renderResumeChart() {
-            var ctx = document.getElementById('resumeChart').getContext('2d');
-            var resumeChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ["January", "February", "March", "April", "May", "June"],
-                
-
-                    datasets: [{
-                        label: 'Resumes Created',
-                        data: [10, 15, 8, 12, 20, 18],
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1,
-                        fill: true
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
-    
-        // Call the function to render the chart
-        renderResumeChart();
-    </script>
-</body>
+    @stack('scripts')
+    </body>
 </html>

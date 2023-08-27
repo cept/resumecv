@@ -16,6 +16,7 @@
             <p class="card-text">{{ $item->summary }}</p>
             <a href="/dashboard/template/{{ $item->id }}/edit" class="btn btn-sm btn-primary">Edit</a>
             <a href="/template/{{$item->url}}" class="btn btn-sm btn-primary">View</a>
+            <a href="{{ route('download-resume', ['id' => $item->id]) }}" class="btn btn-sm btn-success">Download</a>
             <form action="/dashboard/template/{{ $item->id }}" method="post" class="d-inline">
                 @csrf
                 @method('delete')

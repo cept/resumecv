@@ -5,7 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $resume->nama_lengkap }}</title>
-    <link rel="stylesheet" type="text/css" href="{{asset('css/resume2.css')}}" media="all" />
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('css/resume2.css')}}" media="all" /> --}}
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    .resume {
+        width: 100%;
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 22px;
+        text-transform: uppercase;
+    }
+
+    .header .headline {
+        margin: 5px 0;
+        font-size: 22px;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+
+    .section h2 {
+        margin: 0;
+        font-size: 20px;
+        text-transform: uppercase;
+        border-bottom: 2px solid #565656;
+        padding-bottom: 5px;
+    }
+
+    .experience .perusahaan, .kampus {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .experience .posisi, .jurusan {
+        margin-top: -12px;
+    }
+    </style>
 </head>
 <body>
     <div class="resume">
@@ -22,7 +81,7 @@
             <h2>Pengalaman</h2>
             <div class="experience">
                 @foreach (json_decode($resume->experience) as $experience)
-                <p class="perusahaan">{{ $experience->namaPerusahaan }} - manual Bandung, Indonesia</p>
+                <p class="perusahaan">{{ $experience->namaPerusahaan }}</p>
                 <p class="posisi">{{ $experience->posisi }} ({{ $experience->durasiBekerja }})</p>
                 <p>{{ $experience->workDesc }}</p>
                     

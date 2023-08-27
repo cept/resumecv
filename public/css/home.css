@@ -1,0 +1,126 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.hero {
+    background-color: #F0F5F9;
+    padding-top: 100px;
+}
+
+.hero-content {
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.getStarted {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.getStarted:hover {
+    background-color: #0056b3;
+}
+
+.card-img-top1, .card-img-top3 {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transform: rotate(-10deg); /* Tambahkan transformasi rotasi */
+}
+.card-img-top2 {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    margin-left: -70px;
+}
+.card-img-top3 {
+    margin-left: -130px;
+    transform: rotate(10deg);
+}
+
+/* Features Section Styles */
+.features {
+    /* padding: 80px 0; */
+    background-color: #fff;
+}
+
+.features h2 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.feature {
+    text-align: center;
+    padding: 20px;
+}
+
+.feature .icon {
+    font-size: 48px;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.feature h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* About Section Styles */
+.about {
+    /* padding: 80px 0; */
+    background-color: #F0F5F9;
+}
+
+.about h2 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.about p {
+    font-size: 18px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Contact Section Styles */
+.contact {
+    padding: 80px 0;
+    background-color: #fff;
+}
+
+.contact h2 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.contact p {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+}

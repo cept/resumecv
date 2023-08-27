@@ -9,7 +9,7 @@
   <p><i class="bi bi-person-circle"></i> Personal Details</p>
   <div class="row justify-content-between">
     <div class="col-xl-6 mb-3">
-      <label for="nama" class="col-sm-3 col-form-label">NAMA</label>
+      <label for="nama" class="col-sm-2 col-form-label">NAMA</label>
       <div>
         <input type="text" name="nama_lengkap" class="form-control @error('nama_lengkap') is-invalid @enderror" id="nama" placeholder="Nama Lengkap" value="{{ old('nama_lengkap', $resume->nama_lengkap) }}">
         @error('nama_lengkap')
@@ -40,6 +40,20 @@
               {{ $message }}
           </div>
       @enderror
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="foto" class="col-sm-2 col-form-label">Foto Profil</label>
+    <div>
+        <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror" id="foto">
+        @error('foto')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+        @enderror
+        @if ($resume->foto)
+            <img src="{{ asset('storage/' . $resume->foto) }}" alt="Foto Profil" class="mt-2" style="max-width: 100px">
+        @endif
     </div>
   </div>
     <hr>

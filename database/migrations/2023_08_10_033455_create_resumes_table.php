@@ -24,10 +24,11 @@ return new class extends Migration
             $table->text('education');
             $table->text('skills');
             $table->text('certification');
+            $table->string('foto');
             $table->string('url');
             $table->string('template_type');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

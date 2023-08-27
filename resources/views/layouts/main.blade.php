@@ -6,7 +6,8 @@
     <title>Resume CV Generator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('css/home.css')}}">
     <style>
       
       .removeskill {
@@ -16,10 +17,11 @@
       .removeskill:hover{
         opacity: 0.7;
       }
+
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top" style="background-color: #5C8374;">
       <div class="container">
         <a class="navbar-brand fw-medium" href="/">Resume CV Generator</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +40,7 @@
                 Welcome, {{ auth()->user()->fullname }}
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="\dashboard"><i class="bi bi-layout-text-sidebar-reverse"></i> My Dashboard</a></li>
+                <li><a class="dropdown-item" href="{{ auth()->user()->is_admin?'\dashboardadmin':'\dashboard' }}"><i class="bi bi-layout-text-sidebar-reverse"></i> My Dashboard</a></li>
                 <li><a class="dropdown-item" href="\profile"><i class="bi bi-person-gear"></i> My Profile</a></li>
                 <li>
                   <form action="/logout" method="POST">
@@ -66,7 +68,11 @@
       </div>
     </div>
 
-    <div class="container mt-4">
+    <div class="container-fluid p-0">
+      @yield('home')
+    </div>
+
+    <div class="container mt-4 pt-5">
         @yield('container')
         
 

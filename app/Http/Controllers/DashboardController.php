@@ -14,11 +14,6 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function admin()
-    {
-        return view('dashboard.admin');
-    }
-
     public function template()
     {
         return view('dashboard.template');

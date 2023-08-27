@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('container')
-<a class="btn btn-primary mb-2" href="/dashboard" role="button"><i class="bi bi-arrow-left-circle"></i> Back</a>
-<h3>Perbarui resume anda</h3>
+<a class="btn btn-primary mb-3" href="/dashboard" role="button"><i class="bi bi-arrow-left-circle"></i> Back</a>
+<h3>Perbarui Resume Anda</h3>
 <form method="POST" action="/dashboard/template/{{$resume->id}}" class="border border-2 rounded-2 p-2" enctype="multipart/form-data">
   @csrf
   @method('put')
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="col-xl-6 mb-3">
-      <label for="headline" class="col-sm-2 col-form-label">CV HEADLINE</label>
+      <label for="headline" class="col-sm-3 col-form-label">CV HEADLINE</label>
       <div>
         <input type="text" name="headline" class="form-control @error('headline') is-invalid @enderror" id="headline" placeholder="Web Developer" value="{{ old('headline', $resume->headline) }}">
         @error('headline')
@@ -93,7 +93,7 @@
         @endif
       </div>
       <div class="input-group mb-3">
-        <input type="text" class="form-control @error('skill') is-invalid @enderror" id="userskill" placeholder="masukkan skill" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <input type="text" class="form-control @error('skill') is-invalid @enderror" id="userskill" placeholder="masukkan keahlian anda" aria-label="Recipient's username" aria-describedby="button-addon2">
         <button class="btn btn-primary" type="button" id="addskill">Add</button>
       </div>
     </div>
@@ -115,7 +115,7 @@
       </div>
       <div class="d-flex flex-wrap flex-md-nowrap gap-2">
         <input type="text" class="form-control @error('institusi') is-invalid @enderror" id="institusi" placeholder="nama institusi/kampus">
-        <input type="text" class="form-control @error('gelar') is-invalid @enderror" id="gelar" placeholder="jenis gelar dan jurusan">
+        <input type="text" class="form-control @error('gelar') is-invalid @enderror" id="gelar" placeholder="jenis gelar - jurusan">
         <input type="text" class="form-control @error('tahun') is-invalid @enderror" id="tahun" placeholder="awal tahun - akhir tahun">
         <button class="btn btn-primary" type="button" id="addEducation">Add</button>
       </div>
