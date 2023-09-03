@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('container')
-    <a class="btn btn-secondary mb-2" href="/dashboard/template" role="button"><i class="bi bi-plus-square"></i> Create new resume</a>
+    <a class="btn btn-secondary mb-2" href="/dashboard/template" role="button"><i class="bi bi-plus-square"></i> Buat Resume CV</a>
     @if(session()->has('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
           {{ session('success') }}

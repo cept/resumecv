@@ -36,7 +36,7 @@
               </div>
               <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
             </form>
-            <small class="d-block text-center mt-3">Not registered? <a href="/register">Register Now</a></small>
+            <small class="d-block text-center mt-3">Belum pernah registrasi? <a href="/register">Registrasi Sekarang</a></small>
         </main>
 
     </div>

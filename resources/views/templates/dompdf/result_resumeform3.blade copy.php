@@ -5,52 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $resume->nama_lengkap }}</title>
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <style>
       body {
           font-family: Arial, sans-serif;
-          background-color: #ffffff;
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
+          background-color: #f8f9fa;
         }
         .resume-container {
           max-width: 800px;
-          margin: auto;
+          margin: 50px auto;
           background-color: #ffffff;
           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-          /* display: flex; */
+          display: flex;
         }
         .sidebar {
-          float: left;
-          width: 30%; /* Atur sesuai kebutuhan Anda */
+          flex-basis: 25%;
           padding: 20px;
-          padding-top: 0;
-          box-sizing: border-box;
           background-color: #27384c;
           color: #ffffff;
-          position: fixed;
-          /* height: 100%; */
-          text-align: center;
-          bottom: 0;
-          left: 0;
-          top: 0;
-          /* height: 100%; */
-        }
-        .list-unstyled {
-          text-decoration: none;
-          list-style: none;
-          padding: 0;
-          margin: 0;
         }
         .content {
-          float: left;
-          width: 60%; /* Atur sesuai kebutuhan Anda */
-          padding: 20px;  
-          padding-top: 0;
-          box-sizing: border-box;
-          position: absolute;
-          left: 30%;
+          flex-grow: 1;
+          padding: 20px;
         }
         .profile-img {
           width: 100px;
@@ -59,15 +35,10 @@
           object-fit: cover;
           /* border: 1px solid #fff; */
         }
-
-        @page {
-            size: A4;
-            margin: 0;
-        }
       </style>
     </head>
     <body>
-      {{-- <div class="resume-container"> --}}
+      <div class="resume-container">
         <div class="sidebar text-center">
 
           <img src="{{ $imageUrl }}" alt="Profile Picture" class="profile-img mb-2">
@@ -84,7 +55,7 @@
         </div>
         <div class="content">
           <h2 class="border-bottom">Summary</h2>
-          <p style="text-align: justify;">{{ $resume->summary }}</p>
+          <p>{{ $resume->summary }}</p>
           
           <h2 class="border-bottom">Experience</h2>
           @foreach (json_decode($resume->experience) as $experience)
@@ -108,8 +79,7 @@
             @endforeach
           </ul>
         </div>
-        {{-- <div class="clearfix"></div> --}}
-      {{-- </div> --}}
+      </div>
     </body>
 </html>
     

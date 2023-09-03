@@ -6,7 +6,7 @@
     <title>Resume CV Generator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/style.css">
+    {{-- <link rel="stylesheet" href="css/style.css"> --}}
     <style>
         /* Navbar */
         body {
@@ -44,6 +44,7 @@
         .sidebar {
             background-color: #f6fbff;
             width: 250px;
+            transition: width 0.3s ease;
             height: 100vh;
             position: fixed;
             top: 60px;
@@ -52,6 +53,15 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1;
         }
+
+        .sidebar-expanded {
+            width: 60px;
+        }
+
+        .sidebar-content-expanded {
+            display: none;
+        }
+
         .menu-item {
             padding: 10px;
             text-align: center;
@@ -83,6 +93,24 @@
             padding: 20px;
             position: relative;
         }
+
+        /* .sidebar-active {
+            transform: translateX(0);
+        } */
+
+        .content-active {
+            margin-left: 50px;
+        }
+
+        /* @media (max-width: 767px) {
+            .sidebar-active {
+                transform: translateX(-100%);
+            }
+
+            .content-active {
+                margin-left: 0;
+            }
+        } */
     </style>
 </head>
 <body>
@@ -122,15 +150,19 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 sidebar">
-                <div class="menu-item">
-                    <a href="/dashboardadmin" class="{{ Request::is('dashboardadmin')?'active':'' }}">Dashboard</a>
-                </div>
-                <div class="menu-item">
-                    <a href="/managementuser" class="{{ Request::is('managementuser')?'active':'' }}">Management User</a>
-                </div>
-                <div class="menu-item">
-                    <a href="/dashboard">Buat Resume CV</a>
+            <div class="col-md-2 sidebar sidebar-active">
+                <button id="sidebar-toggle" class="btn btn-sm btn-info"><i class="bi bi-box-arrow-in-right"></i></button>
+                <div id="sidebar-content">
+                    <div class="menu-item">
+                        <a href="/dashboardadmin" class="{{ Request::is('dashboardadmin')?'active':'' }}">Dashboard</a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="/managementuser" class="{{ Request::is('managementuser')?'active':'' }}">Management User</a>
+                    </div>
+                    <div class="menu-item">
+                        <a href="/dashboard">Buat Resume CV</a>
+                    </div>
+                    
                 </div>
             </div>
             <div class="col-md-10 content" id="content">
@@ -142,5 +174,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @stack('scripts')
+    <script>
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarContent = document.getElementById('sidebar-content');
+        const content = document.getElementById('content');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-expanded');
+            sidebarContent.classList.toggle('sidebar-content-expanded');
+            content.classList.toggle('content-active');
+        });
+    </script>
     </body>
 </html>

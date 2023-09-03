@@ -22,20 +22,31 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'fullname' => 'required|min:3|max:255',
             'email' => 'required|unique:users,email,'. $user->id,
-            'passwordlama' => 'required',
-            'passwordbaru' => 'required|min:5|max:255'
         ]);
 
-        if (Hash::check($validated['passwordlama'], $user->password)) {
-            $user->update([
-                'fullname' => $validated['fullname'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['passwordbaru']),
+        $updateData = [
+            'fullname' => $validated['fullname'],
+            'email' => $validated['email'],
+        ];
+
+        // Periksa apakah password baru diisi
+        if (!empty($request->input('passwordbaru'))) {
+            $request->validate([
+                'passwordlama' => 'required',
+                'passwordbaru' => 'required|min:5|max:255'
             ]);
 
-            return redirect('/profile')->with('success', 'Akun berhasil di update!');
+            // Periksa apakah password lama cocok
+            if (Hash::check($request->input('passwordlama'), $user->password)) {
+                $updateData['password'] = Hash::make($request->input('passwordbaru'));
+            } else {
+                return back()->with('error', 'Password Lama tidak cocok.');
+            }
         }
-        
-        return back()->with('error', 'Password Lama tidak cocok.');
+
+        $user->update($updateData);
+
+        return redirect('/profile')->with('success', 'Akun berhasil di update!');
     }
+
 }

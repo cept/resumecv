@@ -31,69 +31,47 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    User Registration Statistics
-                </div>
-                <div class="card-body">
-                    <canvas id="userChart"></canvas>
+    {{-- <div class="container"> --}}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-bg-info">
+                        Resume CV Generator Statistics
+                    </div>
+                    <div class="card-body">
+                        <canvas id="combinedChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    Resume Creation Statistics
-                </div>
-                <div class="card-body">
-                    <canvas id="resumeChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- </div> --}}
 
 @endsection
 
 @push('scripts')
 <script>
-    var resumeData = @json($resumeData);
-    var userData = @json($userData);
+    let combinedData = @json($combinedData);
 
-    var ctxResume = document.getElementById('resumeChart').getContext('2d');
-    var resumeChart = new Chart(ctxResume, {
+    let ctxCombined = document.getElementById('combinedChart').getContext('2d');
+    let combinedChart = new Chart(ctxCombined, {
         type: 'line',
         data: {
-            labels: resumeData.months,
-            datasets: [{
-                label: 'Total Resumes',
-                data: resumeData.resumeCounts,
-                borderColor: 'rgba(0, 255, 0, 0.6)',
-                fill: false
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+            labels: combinedData.months,
+            datasets: [
+                {
+                    label: 'Total Users',
+                    data: combinedData.userCounts,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    fill: false
+                },
+                {
+                    label: 'Total Resumes',
+                    data: combinedData.resumeCounts,
+                    borderColor: 'rgba(0, 255, 0, 0.6)',
+                    fill: false
                 }
-            }
-        }
-    });
-
-    var ctxUser = document.getElementById('userChart').getContext('2d');
-    var userChart = new Chart(ctxUser, {
-        type: 'line',
-        data: {
-            labels: userData.months,
-            datasets: [{
-                label: 'Total Users',
-                data: userData.userCounts,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                fill: false
-            }]
+            ]
         },
         options: {
             scales: {

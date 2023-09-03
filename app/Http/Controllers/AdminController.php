@@ -14,37 +14,17 @@ class AdminController extends Controller
         $totalUsers = User::count();
         $totalResumes = Resume::count();
 
-        $resumeData = $this->generateResumeChartData();
-        $userData = $this->generateUserChartData();
-    
-        return view('admin.dashboard', compact('totalUsers', 'totalResumes', 'resumeData', 'userData'));
+        $combinedData = $this->generateCombinedChartData();
+
+        return view('admin.dashboard', compact('totalUsers', 'totalResumes', 'combinedData'));
     }
 
-    private function generateResumeChartData()
-    {
-        $months = [];
-        $resumeCounts = [];
-
-        // Generate data for the last 6 months
-        for ($i = 5; $i >= 0; $i--) {
-            $date = Carbon::now()->subMonths($i);
-            $months[] = $date->format('M Y');
-            $resumeCounts[] = Resume::whereYear('created_at', $date->year)
-                                    ->whereMonth('created_at', $date->month)
-                                    ->count();
-        }
-
-        return [
-            'months' => $months,
-            'resumeCounts' => $resumeCounts,
-        ];
-    }
-
-    private function generateUserChartData()
+    private function generateCombinedChartData()
     {
         $months = [];
         $userCounts = [];
-
+        $resumeCounts = [];
+    
         // Generate data for the last 6 months
         for ($i = 5; $i >= 0; $i--) {
             $date = Carbon::now()->subMonths($i);
@@ -52,18 +32,22 @@ class AdminController extends Controller
             $userCounts[] = User::whereYear('created_at', $date->year)
                                 ->whereMonth('created_at', $date->month)
                                 ->count();
+            $resumeCounts[] = Resume::whereYear('created_at', $date->year)
+                                    ->whereMonth('created_at', $date->month)
+                                    ->count();
         }
-
+    
         return [
             'months' => $months,
             'userCounts' => $userCounts,
+            'resumeCounts' => $resumeCounts,
         ];
     }
 
     public function managementUser()
     {
         return view('admin.managementuser', [
-            'users' => User::all(),
+            'users' => User::paginate(10),
         ]);
     }
 
@@ -87,6 +71,6 @@ class AdminController extends Controller
         $user->delete();
         // $resume->user->delete();
 
-        return redirect('/managementuser')->with('success', 'Resume berhasil dihapus');
+        return redirect('/managementuser')->with('success', 'Akun berhasil dihapus');
     }
 }

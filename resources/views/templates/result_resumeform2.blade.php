@@ -9,7 +9,7 @@
     <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        background-color: #ffffff;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -18,12 +18,13 @@
 
     .resume {
         width: 100%;
-        max-width: 800px;
-        margin: 20px auto;
+        max-width: 700px;
+        margin: auto;
         background-color: #fff;
-        padding: 40px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* padding: 40px; */
+        /* padding: 50px 20px; */
+        /* border-radius: 5px; */
+        /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
     }
 
     .header {
@@ -52,7 +53,7 @@
         margin: 0;
         font-size: 20px;
         text-transform: uppercase;
-        border-bottom: 2px solid #565656;
+        border-bottom: 1px solid #565656;
         padding-bottom: 5px;
     }
 
@@ -63,6 +64,11 @@
 
     .experience .posisi, .jurusan {
         margin-top: -12px;
+    }
+    
+    @page {
+        size: A4;
+        margin: 50px;
     }
     </style>
 </head>
@@ -75,7 +81,7 @@
         </div>
         <div class="section">
             <h2>Ringkasan</h2>
-            <p>{{ $resume->summary }}</p>
+            <p style="text-align: justify;">{{ $resume->summary }}</p>
         </div>   
         <div class="section">
             <h2>Pengalaman</h2>
