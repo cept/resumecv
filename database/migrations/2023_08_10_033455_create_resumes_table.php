@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('foto');
             $table->string('url');
             $table->string('template_type');
+            $table->string('id_template');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

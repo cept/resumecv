@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Resume;
+use App\Models\Template;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use PDF;
@@ -14,13 +15,18 @@ class ResumeController extends Controller
 {
     public function index()
     {
-        return view('dashboard.template');
+        $templates = Template::all();
+        return view('dashboard.template', compact('templates'));
     }
 
-    public function create($template)
+    public function create(Request $request, $template)
     {
-        // dd($template);
+        // Mengambil nilai id_template dari query parameter
+        $id_template = $request->query('id_template');
+        // dd($id_template);
+
         session(['selected_template' => $template]);
+        session(['selected_template_id' => $id_template]);
         $nameTemplate = "templates.". $template;
         // return view('templates.resumeform1');
         return view($nameTemplate);
@@ -30,6 +36,7 @@ class ResumeController extends Controller
     {
         // dd($request);
         $template = session('selected_template');
+        $template_id = session('selected_template_id');
         $validated = $request->validate([
             'nama_lengkap' => 'required|max:255',
             'headline' => 'required|max:255',
@@ -77,6 +84,7 @@ class ResumeController extends Controller
         $validated['certification'] = '';
         $validated['url'] = 'cv'.time();
         $validated['template_type'] = $template;
+        $validated['id_template'] = $template_id;
 
         Resume::create($validated);
 
@@ -89,7 +97,16 @@ class ResumeController extends Controller
     {
         $resume = Resume::where('url', $url)->firstOrFail();
         // dd($resume);
-        $templateView = 'templates.result_'.$resume->template_type;
+        if ($resume->id_template == 'default') {
+            $templateView = 'templates.result_'.$resume->template_type;
+
+        } else {
+
+            $templateId = 5 + intval($resume->id_template); 
+            $templateView = 'templates.result_resumeform'.$templateId;
+        }
+
+        // dd($templateView);
         $imageUrl = Storage::url($resume->foto);
 
         return view($templateView, [
@@ -182,7 +199,16 @@ class ResumeController extends Controller
     {
         $resume = Resume::findOrFail($id);
     
-        $templateView = 'templates.result_' . $resume->template_type;
+        if ($resume->id_template == 'default') {
+            $templateView = 'templates.result_'.$resume->template_type;
+
+        } else {
+
+            $templateId = 5 + intval($resume->id_template); 
+            $templateView = 'templates.result_resumeform'.$templateId;
+        }
+
+        // $templateView = 'templates.result_' . $resume->template_type;
     
         // Generate HTML view for resume
         $imageUrl = public_path('storage/' . $resume->foto);

@@ -23,7 +23,11 @@ class RegisterController extends Controller
 
         $validated['password'] = Hash::make($validated['password']);
 
-        User::create($validated);
+        $user = User::create($validated);
+
+        // Generate user ID dengan 5 angka random
+        $user->user_id = mt_rand(10000, 99999);
+        $user->save();
 
         return redirect('/login')->with('success', 'Please login, registration successfull!');
     }

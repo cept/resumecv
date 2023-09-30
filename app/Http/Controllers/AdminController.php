@@ -44,11 +44,24 @@ class AdminController extends Controller
         ];
     }
 
-    public function managementUser()
+    public function managementUser(Request $request)
     {
-        return view('admin.managementuser', [
-            'users' => User::paginate(10),
-        ]);
+        $search = $request->input('search');
+
+        // Cek apakah terdapat parameter pencarian
+        if ($search) {
+            $users = User::where('fullname', 'LIKE', '%' . $search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $search . '%')
+                        ->orWhere('user_id', 'LIKE', '%' . $search . '%')
+                        ->paginate(10)
+                        ->appends(['search' => $search]); // Untuk menjaga query parameter pencarian
+        } else {
+            // Jika tidak ada parameter pencarian, tampilkan semua pengguna
+            $users = User::paginate(10);
+        }
+
+        return view('admin.managementuser', compact('users'));
+        
     }
 
     public function managementUserEdit(User $user)
@@ -68,8 +81,8 @@ class AdminController extends Controller
     public function destroyUser(User $user)
     {
         // $resume = User::FindOrFail($id);
-        $user->delete();
         // $resume->user->delete();
+        $user->delete();
 
         return redirect('/managementuser')->with('success', 'Akun berhasil dihapus');
     }

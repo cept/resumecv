@@ -24,6 +24,6 @@
       <div class="col-6">
         <button type="submit" class="btn btn-primary">Update Role</button>
       </div>
-    </form>
+</form>
     
 @endsection

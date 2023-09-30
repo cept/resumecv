@@ -8,6 +8,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TemplateController;
 use App\Models\Resume;
 
 /*
@@ -39,6 +40,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/managementuser/edit/{user}', [AdminController::class, 'managementUserEdit'])->name('edit.user');
     Route::put('/managementuser/update/{user}', [AdminController::class, 'updateUser'])->name('update.user');
     Route::delete('/deleteuser/{user}', [AdminController::class, 'destroyUser'])->name('delete.user');
+    Route::resource('templates', TemplateController::class);
 
 });
 

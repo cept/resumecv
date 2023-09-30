@@ -160,6 +160,9 @@
                         <a href="/managementuser" class="{{ Request::is('managementuser')?'active':'' }}">Management User</a>
                     </div>
                     <div class="menu-item">
+                        <a href="{{ route('templates.index') }}" class="{{ Route::is('templates.index') ? 'active' : '' }}">Templates</a>
+                    </div>                    
+                    <div class="menu-item">
                         <a href="/dashboard">Buat Resume CV</a>
                     </div>
                     

@@ -9,6 +9,11 @@
         </div>             
     @endif
 
+    @php
+        // Mengurutkan data resume dari yang terbaru ke yang terlama
+        $resume = $resume->sortByDesc('created_at');
+    @endphp
+
     @foreach ($resume as $item)
         <div class="card my-3">
             <div class="card-body">

@@ -57,6 +57,7 @@
           height: 100px;
           border-radius: 50%;
           object-fit: cover;
+          margin-top: 10px;
           /* border: 1px solid #fff; */
         }
 

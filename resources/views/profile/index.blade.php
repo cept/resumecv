@@ -18,6 +18,10 @@
   @csrf
   @method('put')
     <div class="col-md-6">
+      <label for="user_id" class="form-label">User ID</label>
+      <input type="text" name="user_id" class="form-control" id="user_id" value="{{$user->user_id}}" readonly>
+    </div><br>
+    <div class="col-md-6">
         <label for="name" class="form-label">Nama</label>
         <input type="text" name="fullname" class="form-control @error('fullname') is-invalid @enderror" id="name" value="{{ old('fullname', $user->fullname) }}">
         @error('fullname')

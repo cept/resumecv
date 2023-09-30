@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('user_id')->nullable()->unique(); // Ubah tipe data menjadi VARCHAR(5)
             $table->string('fullname');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
